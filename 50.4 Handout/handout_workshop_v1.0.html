@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KI-Workshop — Dein Arbeitsblatt</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --petrol-deep:    #1A3F40;
+    --petrol-mid:     #2D5C5C;
+    --green-deep:     #2F5E40;
+    --mint:           #7FD9B5;
+    --mint-soft:      #A8E8C9;
+    --mint-pale:      #D8F2E5;
+    --sun:            #F4C46B;
+    --sun-soft:       #FAD89A;
+    --sun-pale:       #FDF1D8;
+    --terracotta:     #D97A4E;
+    --cream:          #F8F2E8;
+    --cream-warm:     #FDFAF3;
+    --sand:           #E8DCC4;
+    --text-dark:      #1A2A24;
+    --text-muted:     #6B7B70;
+    --text-light:     #F0F7EC;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--cream);
+    color: var(--text-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding: 0 1rem 4rem;
+  }
+
+  /* ─── Toolbar ───────────────────────────────────── */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--cream-warm);
+    border-bottom: 1px solid var(--sand);
+    padding: 0.75rem 1rem;
+    margin: 0 -1rem 0;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(26, 63, 64, 0.04);
+  }
+
+  .toolbar-status {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-right: auto;
+    padding-left: 0.5rem;
+  }
+
+  .toolbar-status.saved { color: var(--green-deep); }
+
+  .btn {
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--petrol-mid);
+    background: var(--petrol-deep);
+    color: var(--text-light);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .btn:hover { background: var(--petrol-mid); transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--petrol-deep);
+  }
+  .btn-secondary:hover { background: var(--mint-pale); }
+
+  /* ─── Hero / Header ──────────────────────────────── */
+  .hero {
+    max-width: 720px;
+    margin: 2.5rem auto 2rem;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background:
+      radial-gradient(ellipse at 70% 20%, rgba(244,196,107,0.15) 0%, transparent 55%),
+      radial-gradient(ellipse at 20% 80%, rgba(127,217,181,0.20) 0%, transparent 60%),
+      linear-gradient(160deg, var(--petrol-deep) 0%, var(--green-deep) 100%);
+    color: var(--text-light);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .monogram {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--mint);
+    letter-spacing: -0.05em;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+
+  .monogram-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--mint-soft);
+    letter-spacing: 0.08em;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 1rem;
+  }
+
+  .hero-meta-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: var(--mint-soft);
+  }
+
+  .hero-meta-row label {
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+  }
+
+  .hero-input {
+    font-family: inherit;
+    font-size: 1rem;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px dashed var(--mint-soft);
+    color: var(--text-light);
+    padding: 0.2rem 0.5rem;
+    min-width: 200px;
+    text-align: center;
+    outline: none;
+  }
+
+  .hero-input:focus {
+    border-bottom-color: var(--sun);
+    border-bottom-style: solid;
+  }
+
+  .hero-input::placeholder { color: rgba(168, 232, 201, 0.5); }
+
+  /* ─── Sections ───────────────────────────────────── */
+  .section {
+    max-width: 720px;
+    margin: 1.5rem auto;
+    background: var(--cream-warm);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 2px 12px rgba(26, 63, 64, 0.06);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.6rem;
+    color: var(--petrol-deep);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-title .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--terracotta);
+    font-size: 1.4rem;
+  }
+
+  .section-lead {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    font-style: italic;
+  }
+
+  /* ─── Agenda ─────────────────────────────────────── */
+  .agenda {
+    list-style: none;
+    counter-reset: agenda;
+  }
+
+  .agenda li {
+    counter-increment: agenda;
+    padding: 0.7rem 0 0.7rem 2.5rem;
+    border-bottom: 1px solid var(--sand);
+    position: relative;
+    font-size: 1rem;
+  }
+
+  .agenda li:last-child { border-bottom: none; }
+
+  .agenda li::before {
+    content: counter(agenda);
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    background: var(--mint-pale);
+    color: var(--petrol-deep);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .agenda-time {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-left: 0.5rem;
+  }
+
+  /* ─── Rezept ─────────────────────────────────────── */
+  .recipe {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.6rem 1.2rem;
+    margin: 1rem 0 1.5rem;
+    padding: 1.25rem;
+    background: var(--mint-pale);
+    border-radius: 12px;
+    border-left: 4px solid var(--mint);
+  }
+
+  .recipe dt {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--petrol-deep);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .recipe dd {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+  }
+
+  .example-box {
+    background: var(--sun-pale);
+    border-left: 4px solid var(--sun);
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    font-style: italic;
+    color: var(--text-dark);
+  }
+
+  .example-box-label {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--terracotta);
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+
+  /* ─── Editable fields ───────────────────────────── */
+  .field-label {
+    display: block;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--petrol-deep);
+    margin: 1rem 0 0.4rem;
+  }
+
+  .field-hint {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-style: italic;
+  }
+
+  textarea, input[type="text"] {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    padding: 0.8rem 1rem;
+    border: 1.5px solid var(--sand);
+    border-radius: 10px;
+    background: white;
+    color: var(--text-dark);
+    transition: border-color 0.15s;
+    resize: vertical;
+  }
+
+  textarea { min-height: 100px; }
+  textarea:focus, input[type="text"]:focus {
+    outline: none;
+    border-color: var(--mint);
+    box-shadow: 0 0 0 3px rgba(127, 217, 181, 0.2);
+  }
+
+  textarea::placeholder, input::placeholder { color: var(--text-muted); opacity: 0.6; }
+
+  /* ─── Two-column block ──────────────────────────── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2rem; }
+    .section { padding: 1.5rem 1.25rem; }
+  }
+
+  /* ─── Legal box ─────────────────────────────────── */
+  .legal-box {
+    background: var(--sun-pale);
+    border-left: 4px solid var(--terracotta);
+    padding: 1.25rem 1.5rem;
+    border-radius: 10px;
+    margin-top: 0.5rem;
+  }
+
+  .legal-box ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .legal-box li {
+    padding: 0.4rem 0 0.4rem 1.8rem;
+    position: relative;
+    font-size: 0.95rem;
+  }
+
+  .legal-box li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    color: var(--terracotta);
+    font-size: 0.8rem;
+    top: 0.6rem;
+  }
+
+  /* ─── Footer / Kontakt ──────────────────────────── */
+  .footer-section {
+    background: linear-gradient(160deg, var(--petrol-deep) 0%, var(--green-deep) 100%);
+    color: var(--text-light);
+    text-align: center;
+  }
+
+  .footer-section .section-title { color: var(--mint); justify-content: center; }
+  .footer-section .section-title .num { color: var(--sun-soft); }
+
+  .footer-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--mint-soft);
+    margin: 1rem 0 1.5rem;
+  }
+
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: center;
+    font-size: 0.95rem;
+  }
+
+  .footer-contact a {
+    color: var(--mint);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--mint);
+  }
+
+  .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ─── Print ──────────────────────────────────────── */
+  @media print {
+    .toolbar { display: none; }
+    body { background: white; padding: 0; }
+    .section, .hero, .footer-section {
+      box-shadow: none;
+      page-break-inside: avoid;
+    }
+    .hero, .footer-section {
+      background: var(--cream) !important;
+      color: var(--text-dark) !important;
+    }
+    .hero h1, .monogram, .footer-tagline, .footer-name { color: var(--petrol-deep) !important; }
+    .hero-meta-row label, .monogram-tagline, .hero-meta-row, .footer-contact { color: var(--text-muted) !important; }
+    .hero-input { color: var(--text-dark) !important; border-bottom-color: var(--text-muted) !important; }
+  }
+
+  /* ─── Hidden upload input ───────────────────────── */
+  #uploadInput { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ═══ Toolbar ═══ -->
+<div class="toolbar">
+  <span class="toolbar-status" id="saveStatus">Bereit</span>
+  <button class="btn" onclick="downloadHandout()">💾 Stand sichern</button>
+  <button class="btn btn-secondary" onclick="document.getElementById('uploadInput').click()">📂 Datei laden</button>
+  <button class="btn btn-secondary" onclick="window.print()">🖨 Drucken / PDF</button>
+  <input type="file" id="uploadInput" accept=".html" onchange="uploadHandout(event)">
+</div>
+
+<!-- ═══ Hero ═══ -->
+<header class="hero">
+  <div class="monogram">nb</div>
+  <div class="monogram-tagline">NICOLE BAUMGARTNER</div>
+  <h1>Dein KI-Workshop</h1>
+  <div class="hero-meta">
+    <div class="hero-meta-row">
+      <label for="kundinName">für</label>
+      <input type="text" id="kundinName" class="hero-input" placeholder="dein Name" data-save>
+    </div>
+    <div class="hero-meta-row">
+      <label for="workshopDatum">am</label>
+      <input type="text" id="workshopDatum" class="hero-input" placeholder="Datum" value="27. Mai 2026" data-save>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ Agenda ═══ -->
+<section class="section">
+  <h2 class="section-title"><span class="num">01</span> Heute machen wir</h2>
+  <ol class="agenda">
+    <li>Wo stehst du, was willst du <span class="agenda-time">— 20 Min</span></li>
+    <li>Wie KI eigentlich tickt <span class="agenda-time">— 20 Min</span></li>
+    <li>Du schreibst — wir verfeinern gemeinsam <span class="agenda-time">— 45 Min</span></li>
+    <li>Deine Prompts für zu Hause <span class="agenda-time">— 25 Min</span></li>
+    <li>Was als Nächstes Sinn macht <span class="agenda-time">— 10 Min</span></li>
+  </ol>
+</section>
+
+<!-- ═══ Prompt-Rezept ═══ -->
+<section class="section">
+  <h2 class="section-title"><span class="num">02</span> Das Prompt-Rezept</h2>
+  <p class="section-lead">Vier Zutaten — mehr braucht es nicht für einen guten Prompt.</p>
+
+  <dl class="recipe">
+    <dt>Rolle</dt><dd>Wer soll die KI sein?</dd>
+    <dt>Aufgabe</dt><dd>Was genau soll sie tun?</dd>
+    <dt>Kontext</dt><dd>Was muss sie über dich oder die Situation wissen?</dd>
+    <dt>Format</dt><dd>Wie soll die Antwort aussehen?</dd>
+  </dl>
+
+  <div class="example-box">
+    <span class="example-box-label">Beispiel</span>
+    Du bist Lektorin für Kinderbücher zwischen 4 und 6 Jahren. Ich plane ein Buch über eine kleine Maus, die das Meer entdeckt. Gib mir drei Vorschläge für einen Spannungsbogen, je zwei Sätze, im warmen Erzählton.
+  </div>
+</section>
+
+<!-- ═══ Mein erster Prompt ═══ -->
+<section class="section">
+  <h2 class="section-title"><span class="num">03</span> Mein erster eigener Prompt</h2>
+  <p class="section-lead">Schreib hier deinen Prompt nach dem Rezept — wir bauen ihn gemeinsam um, wenn der erste Output noch nicht passt.</p>
+
+  <label class="field-label" for="ersterPrompt">Mein Prompt:</label>
+  <textarea id="ersterPrompt" placeholder="Rolle: …&#10;Aufgabe: …&#10;Kontext: …&#10;Format: …" data-save></textarea>
+
+  <label class="field-label" for="ersterOutputNotiz">Was hat die KI geantwortet — und was würde ich verändern?</label>
+  <textarea id="ersterOutputNotiz" placeholder="Kurze Notiz zum Output und meiner nächsten Iteration …" data-save></textarea>
+</section>
+
+<!-- ═══ Reflexion ═══ -->
+<section class="section">
+  <h2 class="section-title"><span class="num">04</span> Was nehme ich mit</h2>
+
+  <div class="two-col">
+    <div>
+      <label class="field-label" for="funktioniert">✓ Das hat funktioniert</label>
+      <textarea id="funktioniert" placeholder="Welche Formulierung, welcher Trick hat den Unterschied gemacht?" data-save></textarea>
+    </div>
+    <div>
+      <label class="field-label" for="nichtfunktioniert">⚠ Das hat noch nicht funktioniert</label>
+      <textarea id="nichtfunktioniert" placeholder="Wo bin ich hängen geblieben? Was probiere ich beim nächsten Mal anders?" data-save></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Meine Prompts für zu Hause ═══ -->
+<section class="section">
+  <h2 class="section-title"><span class="num">05</span> Meine Prompts für zu Hause</h2>
+  <p class="section-lead">Drei Prompts, die du diese Woche direkt wieder benutzen kannst. Wir bauen sie im Workshop gemeinsam mit deinen echten Themen.</p>
+
+  <label class="field-label" for="promptA">Prompt A — Kinderbuch-Idee weiterspinnen</label>
+  <textarea id="promptA" placeholder="Hier füllen wir gemeinsam im Workshop deinen Prompt ein …" data-save></textarea>
+
+  <label class="field-label" for="promptB">Prompt B — Webseiten-Text (Squarespace)</label>
+  <textarea id="promptB" placeholder="Hier füllen wir gemeinsam im Workshop deinen Prompt ein …" data-save></textarea>
+
+  <label class="field-label" for="promptC">Prompt C — dein eigenes Thema</label>
+  <div class="field-hint">Welches Thema aus deiner Liste willst du als Drittes mitnehmen?</div>
+  <textarea id="promptC" placeholder="Hier füllen wir gemeinsam im Workshop deinen Prompt ein …" data-save></textarea>
+</section>
+
+<!-- ═══ Offene Fragen ═══ -->
+<section class="section">
+  <h2 class="section-title"><span class="num">06</span> Meine offenen Fragen</h2>
+  <p class="section-lead">Sammelpunkt für alles, was wir beim Follow-up vertiefen können — schreib einfach hier rein, wenn dir zu Hause noch was einfällt.</p>
+
+  <textarea id="offeneFragen" placeholder="Eine Frage pro Zeile reicht — wir gehen sie beim Follow-up gemeinsam durch." style="min-height: 140px;" data-save></textarea>
+</section>
+
+<!-- ═══ Rechtliches ═══ -->
+<section class="section">
+  <h2 class="section-title"><span class="num">07</span> Bevor du KI-Inhalte veröffentlichst</h2>
+  <p class="section-lead">Drei Punkte, die du im Hinterkopf haben solltest — gerade beim Kinderbuch und auf Social Media.</p>
+
+  <div class="legal-box">
+    <ul>
+      <li><strong>Reale Personen</strong> nur mit Einverständnis — auch wenn das Bild „nur" KI-generiert ist.</li>
+      <li><strong>Keine Stilkopien</strong> bekannter Marken oder Künstler („im Stil von Disney", „wie ein BMW") — rechtlich heikel, gerade kommerziell.</li>
+      <li><strong>KI-generiert kennzeichnen</strong>, wenn es nicht offensichtlich ist — schützt dich und schafft Vertrauen.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ Wie geht's weiter ═══ -->
+<section class="section footer-section">
+  <h2 class="section-title"><span class="num">08</span> Wie es weitergeht</h2>
+  <p class="footer-tagline">Du hast zwei Follow-up-Termine à 30 Minuten — die sind Teil deines Pakets.</p>
+
+  <div class="footer-contact">
+    <div class="footer-name">Nicole Baumgartner</div>
+    <div>Schreib mir, wenn du den ersten Termin setzen möchtest:</div>
+    <div>
+      <a href="mailto:hallo@nicolebaumgartner.de">hallo@nicolebaumgartner.de</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // ─── Save indicator ─────────────────────────────
+  const STATUS = document.getElementById('saveStatus');
+  let saveTimeout;
+
+  function flashSaved() {
+    clearTimeout(saveTimeout);
+    STATUS.textContent = '✓ Gespeichert';
+    STATUS.classList.add('saved');
+    saveTimeout = setTimeout(() => {
+      STATUS.textContent = 'Auto-Save aktiv';
+      STATUS.classList.remove('saved');
+    }, 1800);
+  }
+
+  // ─── Auto-Save in localStorage ──────────────────
+  const STORAGE_KEY = 'nb-workshop-handout-v1';
+  const fields = document.querySelectorAll('[data-save]');
+
+  function collectData() {
+    const data = {};
+    fields.forEach(el => { data[el.id] = el.value; });
+    return data;
+  }
+
+  function restoreData(data) {
+    if (!data) return;
+    fields.forEach(el => {
+      if (data[el.id] !== undefined) el.value = data[el.id];
+    });
+  }
+
+  function autoSave() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(collectData()));
+    flashSaved();
+  }
+
+  fields.forEach(el => el.addEventListener('input', autoSave));
+
+  // On load: restore from localStorage
+  window.addEventListener('DOMContentLoaded', () => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) restoreData(JSON.parse(raw));
+      STATUS.textContent = 'Auto-Save aktiv';
+    } catch (e) { console.warn('Restore failed', e); }
+
+    // Also: if document has an embedded payload (from prior download), use it
+    const embedded = document.getElementById('embeddedPayload');
+    if (embedded && embedded.textContent.trim()) {
+      try {
+        const data = JSON.parse(embedded.textContent);
+        restoreData(data);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        STATUS.textContent = '✓ Aus Datei geladen';
+        STATUS.classList.add('saved');
+      } catch (e) { /* no embedded payload */ }
+    }
+  });
+
+  // ─── Download (embed current values in HTML) ────
+  function downloadHandout() {
+    const data = collectData();
+    const payload = JSON.stringify(data, null, 2);
+    const name = (data.kundinName || 'workshop').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'workshop';
+    const date = new Date().toISOString().slice(0, 10);
+
+    // Clone the current document HTML
+    const docHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+    // Inject embedded payload script tag (replace any existing one)
+    const payloadScript = '<script type="application/json" id="embeddedPayload">' + payload.replace(/<\/script>/gi, '<\\/script>') + '<\/script>';
+    let withPayload;
+    if (docHtml.includes('id="embeddedPayload"')) {
+      withPayload = docHtml.replace(/<script type="application\/json" id="embeddedPayload">[\s\S]*?<\/script>/, payloadScript);
+    } else {
+      withPayload = docHtml.replace('</body>', payloadScript + '\n</body>');
+    }
+
+    const blob = new Blob([withPayload], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `workshop-${name}-${date}.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    STATUS.textContent = '✓ Datei heruntergeladen';
+    STATUS.classList.add('saved');
+  }
+
+  // ─── Upload (restore from previously saved HTML) ─
+  function uploadHandout(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const html = e.target.result;
+      const match = html.match(/<script type="application\/json" id="embeddedPayload">([\s\S]*?)<\/script>/);
+      if (match) {
+        try {
+          const data = JSON.parse(match[1]);
+          restoreData(data);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          STATUS.textContent = '✓ Aus Datei geladen';
+          STATUS.classList.add('saved');
+        } catch (err) {
+          STATUS.textContent = '⚠ Datei konnte nicht gelesen werden';
+        }
+      } else {
+        STATUS.textContent = '⚠ Keine gespeicherten Eingaben gefunden';
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  }
+</script>
+
+</body>
+</html>

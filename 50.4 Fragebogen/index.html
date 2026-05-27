@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fragebogen — Erstgespräch mit Nicole Baumgartner</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --petrol-deep:   #1F4A4A;
+    --petrol-soft:   #2D5C5C;
+    --green-deep:    #3A6B4A;
+    --mint:          #7FD9B5;
+    --mint-soft:     #A8E8C9;
+    --lime:          #B5DA4F;
+    --cream:         #F5F0E8;
+    --cream-warm:    #FDFAF5;
+    --sand:          #E8DFD0;
+    --text-light:    #E8F0E5;
+    --text-dark:     #1F2E2A;
+    --text-muted:    #6B7785;
+    --border:        #D9CFC0;
+    --focus:         #7FD9B5;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--cream);
+    color: var(--text-dark);
+    line-height: 1.6;
+  }
+
+  .serif { font-family: 'Cormorant Garamond', serif; }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--petrol-deep) 0%, var(--green-deep) 100%);
+    padding: 3rem 2rem 4rem;
+    text-align: center;
+    color: var(--text-light);
+  }
+
+  header img {
+    max-width: 140px;
+    width: 50%;
+    height: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+  }
+
+  header h1 em {
+    font-style: italic;
+    color: var(--mint);
+  }
+
+  header p {
+    font-size: 1rem;
+    opacity: 0.85;
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 300;
+  }
+
+  /* PROGRESS */
+  .progress-wrapper {
+    background-color: var(--cream-warm);
+    padding: 1.2rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(31,74,74,0.05);
+  }
+
+  .progress-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .progress-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 4px;
+    background-color: var(--sand);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--mint), var(--lime));
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  /* FORM */
+  form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  .block {
+    background-color: var(--cream-warm);
+    border-radius: 4px;
+    padding: 2.5rem 2.2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 12px rgba(31,74,74,0.05);
+    border-left: 3px solid var(--mint);
+  }
+
+  .block-number {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--green-deep);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .block h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.7rem;
+    color: var(--text-dark);
+    margin-bottom: 0.6rem;
+    line-height: 1.2;
+  }
+
+  .block-intro {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .field {
+    margin-bottom: 1.8rem;
+  }
+
+  .field-label {
+    display: block;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .field-help {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+    font-style: italic;
+  }
+
+  input[type="text"], input[type="email"], textarea, select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    background-color: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: vertical;
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--focus);
+    box-shadow: 0 0 0 3px rgba(127,217,181,0.15);
+  }
+
+  /* CHECKBOXES & RADIOS */
+  .checkbox-group, .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .checkbox-label, .radio-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.7rem 0.9rem;
+    background-color: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+  }
+
+  .checkbox-label:hover, .radio-label:hover {
+    border-color: var(--mint);
+    background-color: var(--mint-soft);
+    background-color: rgba(127,217,181,0.08);
+  }
+
+  .checkbox-label input, .radio-label input {
+    margin-top: 0.2rem;
+    accent-color: var(--green-deep);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  /* SUBMIT */
+  .submit-block {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--cream-warm);
+    border-radius: 4px;
+    margin-top: 1rem;
+  }
+
+  .submit-block p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  button[type="submit"] {
+    background-color: var(--green-deep);
+    color: var(--text-light);
+    padding: 1.1rem 2.8rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  button[type="submit"]:hover {
+    background-color: var(--petrol-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(31,74,74,0.2);
+  }
+
+  .privacy-note {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* SUCCESS */
+  #success-message {
+    display: none;
+    background-color: var(--cream-warm);
+    padding: 3rem 2rem;
+    text-align: center;
+    border-radius: 4px;
+    border-left: 3px solid var(--lime);
+  }
+
+  #success-message h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--green-deep);
+    margin-bottom: 1rem;
+  }
+
+  #success-message p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  /* MOBILE */
+  @media (max-width: 640px) {
+    header { padding: 2rem 1.2rem 3rem; }
+    .progress-wrapper { padding: 1rem 1.2rem; }
+    form { padding: 2rem 1.2rem 3rem; }
+    .block { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="../50.2 Branding_Assets/nb_logo.png" alt="NB">
+  <h1>Schön, dass du <em>hier bist</em></h1>
+  <p>
+    Damit ich unser Erstgespräch genau auf dich vorbereiten kann, habe ich ein paar Fragen.<br>
+    Dauer: ca. 10 Minuten. Du kannst alles in deinen eigenen Worten beantworten.
+  </p>
+</header>
+
+<div class="progress-wrapper">
+  <div class="progress-container">
+    <span class="progress-label">Fortschritt</span>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <span class="progress-label" id="progress-text">0%</span>
+  </div>
+</div>
+
+<form id="questionnaire">
+
+  <!-- BLOCK 1: Zur Person -->
+  <div class="block">
+    <div class="block-number">Block 01 · Zu dir</div>
+    <h2>Wer bist du, und was machst du?</h2>
+    <p class="block-intro">Damit ich ein Bild von dir und deinem Business bekomme.</p>
+
+    <div class="field">
+      <label class="field-label" for="name">Dein Name</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="email">Deine E-Mail (für Rückfragen)</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="business">Wie heißt dein Business / Tätigkeitsbereich?</label>
+      <input type="text" id="business" name="business" placeholder="z.B. Heilpraktikerin, Tischlerei, Online-Coaching">
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="business-desc">Beschreibe in 2-3 Sätzen, was du genau machst</label>
+      <span class="field-help">Stell dir vor, du erklärst es jemandem auf einer Hochzeit.</span>
+      <textarea id="business-desc" name="business-desc" required></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Bist du…</label>
+      <div class="radio-group">
+        <label class="radio-label"><input type="radio" name="size" value="solo"> Solopreneurin (alleine)</label>
+        <label class="radio-label"><input type="radio" name="size" value="micro"> Kleinstunternehmen (1-3 Mitarbeitende)</label>
+        <label class="radio-label"><input type="radio" name="size" value="small"> Kleines Unternehmen (4-10 Mitarbeitende)</label>
+        <label class="radio-label"><input type="radio" name="size" value="other"> Anders — erkläre ich gleich</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 2: Aktueller KI-Bezug -->
+  <div class="block">
+    <div class="block-number">Block 02 · Dein KI-Bezug heute</div>
+    <h2>Was hast du bisher mit KI zu tun gehabt?</h2>
+    <p class="block-intro">Egal ob viel oder wenig — beides ist okay. Ich brauche nur einen Startpunkt.</p>
+
+    <div class="field">
+      <label class="field-label">Wo stehst du heute?</label>
+      <div class="radio-group">
+        <label class="radio-label"><input type="radio" name="ki-level" value="never"> Ich habe noch nie KI bewusst genutzt</label>
+        <label class="radio-label"><input type="radio" name="ki-level" value="tried"> Ich habe mal ChatGPT o.ä. ausprobiert, aber nicht regelmäßig</label>
+        <label class="radio-label"><input type="radio" name="ki-level" value="occasional"> Ich nutze KI gelegentlich, aber unsicher</label>
+        <label class="radio-label"><input type="radio" name="ki-level" value="regular"> Ich nutze KI regelmäßig, will aber mehr rausholen</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Welche KI-Tools hast du schon gehört oder benutzt?</label>
+      <span class="field-help">Mehrfachauswahl möglich. „Nur den Namen gehört" zählt auch.</span>
+      <div class="checkbox-group">
+        <label class="checkbox-label"><input type="checkbox" name="tools" value="chatgpt"> ChatGPT (OpenAI)</label>
+        <label class="checkbox-label"><input type="checkbox" name="tools" value="claude"> Claude (Anthropic)</label>
+        <label class="checkbox-label"><input type="checkbox" name="tools" value="gemini"> Gemini (Google)</label>
+        <label class="checkbox-label"><input type="checkbox" name="tools" value="copilot"> Microsoft Copilot</label>
+        <label class="checkbox-label"><input type="checkbox" name="tools" value="image"> Bild-KI (DALL-E, Midjourney, Canva AI…)</label>
+        <label class="checkbox-label"><input type="checkbox" name="tools" value="other"> Andere — schreibe ich gleich dazu</label>
+        <label class="checkbox-label"><input type="checkbox" name="tools" value="none"> Keines davon</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="ki-feeling">Wie fühlst du dich beim Thema KI gerade?</label>
+      <span class="field-help">Ehrlich — neugierig, skeptisch, überfordert, ängstlich, begeistert? Alles ist okay.</span>
+      <textarea id="ki-feeling" name="ki-feeling"></textarea>
+    </div>
+  </div>
+
+  <!-- BLOCK 3: Schmerzpunkte -->
+  <div class="block">
+    <div class="block-number">Block 03 · Dein Alltag</div>
+    <h2>Wo verlierst du gerade die meiste Zeit?</h2>
+    <p class="block-intro">Hier suchen wir nach den Stellen, an denen KI dich entlasten könnte.</p>
+
+    <div class="field">
+      <label class="field-label" for="time-eaters">Welche Aufgaben fressen in deinem Alltag am meisten Zeit?</label>
+      <span class="field-help">z.B. E-Mails beantworten, Angebote schreiben, Social-Media-Posts, Buchhaltung, Kundenanfragen, Texte für die Website…</span>
+      <textarea id="time-eaters" name="time-eaters" required></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="repetitive">Welche Aufgaben machst du immer wieder gleich oder ähnlich?</label>
+      <span class="field-help">Repetitive Tätigkeiten sind oft die ersten, die KI sinnvoll übernehmen kann.</span>
+      <textarea id="repetitive" name="repetitive"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="frustration">Was nervt dich an deinem Arbeitsalltag am meisten?</label>
+      <textarea id="frustration" name="frustration"></textarea>
+    </div>
+  </div>
+
+  <!-- BLOCK 4: Erwartung -->
+  <div class="block">
+    <div class="block-number">Block 04 · Dein Ziel</div>
+    <h2>Was wäre für dich ein <em>guter</em> Workshop?</h2>
+    <p class="block-intro">Damit ich genau das vorbereiten kann, was dich weiterbringt.</p>
+
+    <div class="field">
+      <label class="field-label" for="goal">Was möchtest du nach unserem Treffen können oder wissen?</label>
+      <span class="field-help">Sei ruhig konkret — „Ich will eine KI gefunden haben, die mir bei Angeboten hilft" ist gut.</span>
+      <textarea id="goal" name="goal" required></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Was wäre dir am wichtigsten?</label>
+      <span class="field-help">Mehrfachauswahl möglich.</span>
+      <div class="checkbox-group">
+        <label class="checkbox-label"><input type="checkbox" name="priority" value="overview"> Ich will erstmal einen Überblick — welche KI-Tools gibt es?</label>
+        <label class="checkbox-label"><input type="checkbox" name="priority" value="usecase"> Ich will einen konkreten ersten Use-Case für mein Business identifizieren</label>
+        <label class="checkbox-label"><input type="checkbox" name="priority" value="prompting"> Ich will lernen, wie ich richtig mit KI spreche (Prompting)</label>
+        <label class="checkbox-label"><input type="checkbox" name="priority" value="privacy"> Ich will verstehen, was mit meinen Daten passiert (Datenschutz)</label>
+        <label class="checkbox-label"><input type="checkbox" name="priority" value="firststep"> Ich will einen ersten konkreten Schritt mit nach Hause nehmen</label>
+        <label class="checkbox-label"><input type="checkbox" name="priority" value="fear"> Ich will meine Angst / Skepsis abbauen</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="concerns">Hast du Sorgen oder Bedenken zum Thema KI?</label>
+      <span class="field-help">z.B. Datenschutz, Kosten, „macht KI mich überflüssig?", „ich bin zu alt dafür"… alles ist erlaubt.</span>
+      <textarea id="concerns" name="concerns"></textarea>
+    </div>
+  </div>
+
+  <!-- BLOCK 5: Freitext -->
+  <div class="block">
+    <div class="block-number">Block 05 · Was du sonst noch loswerden willst</div>
+    <h2>Gibt es etwas, das ich unbedingt wissen sollte?</h2>
+    <p class="block-intro">Alles, was dir wichtig ist und nicht in die anderen Felder gepasst hat.</p>
+
+    <div class="field">
+      <label class="field-label" for="freetext">Freitext</label>
+      <textarea id="freetext" name="freetext" style="min-height: 140px;"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="contact-pref">Wie erreiche ich dich am besten für Rückfragen?</label>
+      <input type="text" id="contact-pref" name="contact-pref" placeholder="z.B. E-Mail bevorzugt, oder Telefonnummer + Zeitfenster">
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-block">
+    <p>Wenn du auf den Button klickst, öffnet sich dein E-Mail-Programm mit allen Antworten — du musst nur noch absenden.</p>
+    <button type="submit">Antworten an Nicole senden →</button>
+    <p class="privacy-note">Deine Antworten gehen direkt per E-Mail an Nicole — sie werden nirgendwo sonst gespeichert.</p>
+  </div>
+
+</form>
+
+<div id="success-message">
+  <h2>Vielen Dank!</h2>
+  <p>Dein E-Mail-Programm sollte sich gerade geöffnet haben. Falls nicht, schick deine Antworten bitte manuell an <strong>nd.baumgartner@gmail.com</strong>.</p>
+  <p>Ich melde mich bei dir, sobald ich deine Antworten gelesen habe — und freue mich auf unser Gespräch!</p>
+</div>
+
+<script>
+  // PROGRESS BAR
+  const form = document.getElementById('questionnaire');
+  const progressFill = document.getElementById('progress-fill');
+  const progressText = document.getElementById('progress-text');
+
+  function updateProgress() {
+    const allFields = form.querySelectorAll('input[type="text"], input[type="email"], textarea, input[type="radio"]:checked, input[type="checkbox"]:checked');
+    const textFields = form.querySelectorAll('input[type="text"], input[type="email"], textarea');
+    const radioGroups = new Set();
+    form.querySelectorAll('input[type="radio"]').forEach(r => radioGroups.add(r.name));
+    const checkboxGroups = new Set();
+    form.querySelectorAll('input[type="checkbox"]').forEach(c => checkboxGroups.add(c.name));
+
+    let filled = 0;
+    let total = textFields.length + radioGroups.size + checkboxGroups.size;
+
+    textFields.forEach(f => { if (f.value.trim().length > 0) filled++; });
+    radioGroups.forEach(name => {
+      if (form.querySelector(`input[name="${name}"]:checked`)) filled++;
+    });
+    checkboxGroups.forEach(name => {
+      if (form.querySelector(`input[name="${name}"]:checked`)) filled++;
+    });
+
+    const percent = Math.round((filled / total) * 100);
+    progressFill.style.width = percent + '%';
+    progressText.textContent = percent + '%';
+  }
+
+  form.addEventListener('input', updateProgress);
+  form.addEventListener('change', updateProgress);
+
+  // FORM SUBMIT → MAILTO
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const data = new FormData(form);
+    const labels = {
+      'name': 'Name',
+      'email': 'E-Mail',
+      'business': 'Business / Tätigkeit',
+      'business-desc': 'Was machst du genau',
+      'size': 'Unternehmensgröße',
+      'ki-level': 'KI-Erfahrung',
+      'tools': 'Bekannte/genutzte Tools',
+      'ki-feeling': 'Gefühl zum Thema KI',
+      'time-eaters': 'Zeitfresser im Alltag',
+      'repetitive': 'Repetitive Aufgaben',
+      'frustration': 'Was nervt am meisten',
+      'goal': 'Ziel für den Workshop',
+      'priority': 'Was ist am wichtigsten',
+      'concerns': 'Sorgen / Bedenken',
+      'freetext': 'Sonstiges',
+      'contact-pref': 'Kontaktpräferenz'
+    };
+
+    let body = 'Hallo Nicole,\n\nhier sind meine Antworten zum Fragebogen:\n\n';
+    body += '═══════════════════════════════════════\n\n';
+
+    // Gruppiere Checkbox-Werte
+    const grouped = {};
+    for (const [key, value] of data.entries()) {
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(value);
+    }
+
+    for (const key in labels) {
+      const values = grouped[key];
+      if (!values || values.length === 0 || (values.length === 1 && !values[0].trim())) continue;
+      body += `▸ ${labels[key].toUpperCase()}\n`;
+      body += values.join(', ') + '\n\n';
+    }
+
+    body += '═══════════════════════════════════════\n\n';
+    body += 'Ich freue mich auf unser Gespräch!\n\n';
+    body += (grouped.name ? grouped.name[0] : 'Viele Grüße');
+
+    const subject = `Fragebogen Erstgespräch — ${grouped.name ? grouped.name[0] : 'Anfrage'}`;
+    const mailto = `mailto:nd.baumgartner@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailto;
+
+    // Erfolgsmeldung
+    setTimeout(() => {
+      form.style.display = 'none';
+      document.getElementById('success-message').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 500);
+  });
+</script>
+
+</body>
+</html>
